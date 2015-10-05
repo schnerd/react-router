@@ -17,6 +17,11 @@ function match({
     stringifyQuery
   })
 
+  // Ensure history state is set correctly (history.isActive and others need this)
+  // useRoutes.listen must be set, as that's where state is mutated
+  staticHistory.listen(() => {})
+  staticHistory.transitionTo(location)
+
   staticHistory.match(location, function (error, nextLocation, nextState) {
     let renderProps = nextState ? { ...nextState, history: staticHistory } : null
     cb(error, nextLocation, renderProps)
